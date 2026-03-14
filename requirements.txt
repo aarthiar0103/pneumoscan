@@ -1,9 +1,8 @@
 flask
-tensorflow
+tensorflow-cpu
 numpy
 pillow
 gunicorn
 Werkzeug
 h5py
-requests
 gevent
