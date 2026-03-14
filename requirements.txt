@@ -6,3 +6,4 @@ gunicorn
 Werkzeug
 h5py
 requests
+gevent
