@@ -617,6 +617,8 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# Load model on startup (works for both gunicorn and direct python)
+load_model()
+
 if __name__ == "__main__":
-    load_model()
     app.run(debug=True, host="0.0.0.0", port=5000)
