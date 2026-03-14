@@ -2,47 +2,25 @@ from flask import Flask, request, jsonify, render_template_string
 import numpy as np
 import io
 import os
-import requests as req
 
 app = Flask(__name__)
 
-# ---------------------------------------------------------------
-# Google Drive File ID for vgg19_model.h5
-# ---------------------------------------------------------------
-GDRIVE_FILE_ID = "1SDgGexTPv3R6h1R_vYM4GYfqPVXo0GDJ"
+
 MODEL_PATH = "vgg19_model.h5"
 model = None
-
-def download_model():
-    if os.path.exists(MODEL_PATH):
-        print("Model file already exists locally.")
-        return True
-    print("Downloading model from Google Drive...")
-    try:
-        url = f"https://drive.usercontent.google.com/download?id={GDRIVE_FILE_ID}&export=download&authuser=0&confirm=t"
-        response = req.get(url, stream=True, timeout=300)
-        response.raise_for_status()
-        with open(MODEL_PATH, "wb") as f:
-            for chunk in response.iter_content(chunk_size=32768):
-                if chunk:
-                    f.write(chunk)
-        size = os.path.getsize(MODEL_PATH)
-        print(f"Model downloaded successfully. Size: {size} bytes")
-        return True
-    except Exception as e:
-        print(f"Failed to download model: {e}")
-        return False
 
 def load_model():
     global model
     try:
-        download_model()
         from tensorflow.keras.models import load_model as keras_load
         model = keras_load(MODEL_PATH)
         print("Model loaded successfully.")
     except Exception as e:
         print(f"Error loading model: {e}")
         model = None
+
+# Load model on startup
+load_model()
 
 def preprocess_image(image_bytes):
     from PIL import Image
