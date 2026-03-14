@@ -19,22 +19,15 @@ def download_model():
         return True
     print("Downloading model from Google Drive...")
     try:
-        session = req.Session()
-        url = f"https://drive.google.com/uc?export=download&id={GDRIVE_FILE_ID}"
-        response = session.get(url, stream=True)
-        token = None
-        for key, value in response.cookies.items():
-            if key.startswith("download_warning"):
-                token = value
-                break
-        if token:
-            url = f"https://drive.google.com/uc?export=download&id={GDRIVE_FILE_ID}&confirm={token}"
-            response = session.get(url, stream=True)
+        url = f"https://drive.usercontent.google.com/download?id={GDRIVE_FILE_ID}&export=download&authuser=0&confirm=t"
+        response = req.get(url, stream=True, timeout=300)
+        response.raise_for_status()
         with open(MODEL_PATH, "wb") as f:
             for chunk in response.iter_content(chunk_size=32768):
                 if chunk:
                     f.write(chunk)
-        print("Model downloaded successfully.")
+        size = os.path.getsize(MODEL_PATH)
+        print(f"Model downloaded successfully. Size: {size} bytes")
         return True
     except Exception as e:
         print(f"Failed to download model: {e}")
