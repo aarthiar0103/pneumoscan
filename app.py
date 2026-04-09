@@ -81,21 +81,14 @@ def preprocess_image(image):
 # HERO
 st.markdown("""
 <div class="hero-section">
-    <div class="hero-badge">🫁 VGG19 Deep Learning · 92% Accuracy</div>
+    <div class="hero-badge">🫁 VGG19 Deep Learning</div>
     <div class="hero-title">AI-Powered <span>Pneumonia</span> Detection</div>
-    <div class="hero-stats">
-        <div class="stat-item"><div class="stat-num">92%</div><div class="stat-label">Test Accuracy</div></div>
-        <div class="stat-item"><div class="stat-num">5,863</div><div class="stat-label">X-Ray Images</div></div>
-        <div class="stat-item"><div class="stat-num">0.92</div><div class="stat-label">F1-Score</div></div>
-        <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">CNN Models</div></div>
-        <div class="stat-item"><div class="stat-num">0.98</div><div class="stat-label">Pneumonia Precision</div></div>
-    </div>
 </div>
 """, unsafe_allow_html=True)
 
 # TABS
-tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs([
-    "🔬 Analyzer","📊 Dataset","🧠 Models","📈 Results","🛠 Tech Stack","✅ Conclusion"
+tab1,tab2,tab3,tab4,tab5,tab6,tab7 = st.tabs([
+    "🔬 Analyzer","ℹ️ How It Works","📊 Dataset","🧠 Models","📈 Results","🛠 Tech Stack","✅ Conclusion"
 ])
 
 # TAB 1 — ANALYZER
@@ -103,20 +96,6 @@ with tab1:
     st.markdown('<div class="section-tag">Live Demo</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-title">Chest X-Ray <span>Analyzer</span></div>', unsafe_allow_html=True)
     st.markdown('<div class="section-desc">Upload a chest X-ray image to get an instant AI-powered pneumonia prediction using our VGG19 model.</div>', unsafe_allow_html=True)
-    c1,c2,c3,c4,c5 = st.columns(5)
-    for col,(num,title,desc) in zip([c1,c2,c3,c4,c5],[
-        ("01","Upload X-Ray","Drop a JPEG/PNG chest radiograph."),
-        ("02","Preprocess","Resized to 224×224 px, normalized."),
-        ("03","VGG19","16 conv layers extract features."),
-        ("04","Classify","FC layers output probabilities."),
-        ("05","Result","Diagnosis shown instantly."),
-    ]):
-        with col:
-            st.markdown(f"""<div style="text-align:center;padding:12px;background:#0f1e35;border:1px solid rgba(56,139,255,0.18);border-radius:12px;margin-bottom:24px;">
-                <div style="width:46px;height:46px;background:linear-gradient(135deg,#388bff,#6366f1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:800;color:white;">{num}</div>
-                <div style="font-family:'Inter',sans-serif;font-size:0.81rem;font-weight:700;color:#e8f0ff;margin-bottom:4px;">{title}</div>
-                <div style="font-size:0.72rem;color:#6b82a8;line-height:1.5;">{desc}</div>
-            </div>""", unsafe_allow_html=True)
 
     col_u, col_r = st.columns(2)
     with col_u:
@@ -147,17 +126,35 @@ with tab1:
                         st.markdown(f'<div class="result-card-pneumonia"><div style="font-size:2.5rem;margin-bottom:12px;">⚠️</div><div class="result-title-pneumonia">Pneumonia Detected</div><div class="result-desc">The VGG19 model identified patterns consistent with pneumonia. Please seek immediate medical evaluation.</div></div>', unsafe_allow_html=True)
                     else:
                         st.markdown(f'<div class="result-card-normal"><div style="font-size:2.5rem;margin-bottom:12px;">✅</div><div class="result-title-normal">No Pneumonia Found</div><div class="result-desc">No significant indicators of pneumonia found. Lung patterns appear normal. Always confirm with a doctor.</div></div>', unsafe_allow_html=True)
-                    st.markdown("<br/><b style='color:#8fa3c4;font-family:Inter,sans-serif'>Confidence Score</b>", unsafe_allow_html=True)
-                    st.progress(confidence)
-                    m1,m2 = st.columns(2)
-                    with m1: st.markdown(f'<div class="perf-card"><div class="perf-val" style="color:#388bff">{prediction}</div><div class="perf-label">Predicted Class</div></div>', unsafe_allow_html=True)
-                    with m2: st.markdown(f'<div class="perf-card"><div class="perf-val" style="color:#388bff">{pct}%</div><div class="perf-label">Confidence</div></div>', unsafe_allow_html=True)
                     st.markdown('<div class="disclaimer">⚠️ For research & educational use only. Always consult a qualified medical professional for diagnosis and treatment.</div>', unsafe_allow_html=True)
         else:
             st.markdown('<div class="info-card" style="min-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;"><div style="font-size:3rem;margin-bottom:16px;opacity:0.25;">🔬</div><div style="color:#6b82a8;font-size:0.9rem;line-height:1.7;">Upload a chest X-ray on the left<br/>and click <strong style="color:#8fa3c4;">Analyze X-Ray</strong> to see the AI result here.</div></div>', unsafe_allow_html=True)
 
-# TAB 2 — DATASET
+# TAB 2 — HOW IT WORKS
 with tab2:
+    st.markdown('<div class="section-tag">Pipeline</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">How It <span>Works</span></div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-desc">A step-by-step overview of how the AI analyzes your chest X-ray image for pneumonia detection.</div>', unsafe_allow_html=True)
+    c1,c2,c3,c4,c5 = st.columns(5)
+    for col,(num,title,desc) in zip([c1,c2,c3,c4,c5],[
+        ("01","Upload X-Ray","Drop a JPEG/PNG chest radiograph."),
+        ("02","Preprocess","Resized to 224×224 px, normalized."),
+        ("03","VGG19","16 conv layers extract features."),
+        ("04","Classify","FC layers output probabilities."),
+        ("05","Result","Diagnosis shown instantly."),
+    ]):
+        with col:
+            st.markdown(f"""<div style="text-align:center;padding:12px;background:#0f1e35;border:1px solid rgba(56,139,255,0.18);border-radius:12px;margin-bottom:24px;">
+                <div style="width:46px;height:46px;background:linear-gradient(135deg,#388bff,#6366f1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:800;color:white;">{num}</div>
+                <div style="font-family:'Inter',sans-serif;font-size:0.81rem;font-weight:700;color:#e8f0ff;margin-bottom:4px;">{title}</div>
+                <div style="font-size:0.72rem;color:#6b82a8;line-height:1.5;">{desc}</div>
+            </div>""", unsafe_allow_html=True)
+    hw1,hw2,hw3 = st.columns(3)
+    for col,(val,color,label) in zip([hw1,hw2,hw3],[("92%","#00e5a0","Test Accuracy"),("0.92","#388bff","F1-Score"),("0.98","#a78bfa","Pneumonia Precision")]):
+        with col: st.markdown(f'<div class="perf-card"><div class="perf-val" style="color:{color}">{val}</div><div class="perf-label">{label}</div></div>', unsafe_allow_html=True)
+
+# TAB 3 — DATASET
+with tab3:
     st.markdown('<div class="section-tag">Training Data</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-title">Dataset & <span>Preprocessing</span></div>', unsafe_allow_html=True)
     st.markdown('<div class="section-desc">Sourced from Kaggle\'s Chest X-Ray Images dataset — real-world pediatric radiographs, expert-graded and carefully preprocessed.</div>', unsafe_allow_html=True)
@@ -186,8 +183,8 @@ with tab2:
         pipe_html += '</div>'
         st.markdown(pipe_html, unsafe_allow_html=True)
 
-# TAB 3 — MODELS
-with tab3:
+# TAB 4 — MODELS
+with tab4:
     st.markdown('<div class="section-tag">Architecture Comparison</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-title">CNN <span>Models</span></div>', unsafe_allow_html=True)
     st.markdown('<div class="section-desc">Four deep learning architectures trained and evaluated. VGG19 achieved the best test accuracy of 92%.</div>', unsafe_allow_html=True)
@@ -216,8 +213,8 @@ with tab3:
                 </div>
             </div>""", unsafe_allow_html=True)
 
-# TAB 4 — RESULTS
-with tab4:
+# TAB 5 — RESULTS
+with tab5:
     st.markdown('<div class="section-tag">Performance Metrics</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-title">Results & <span>Metrics</span></div>', unsafe_allow_html=True)
     st.markdown('<div class="section-desc">VGG19 outperformed all architectures across every metric on the 624-image held-out test set.</div>', unsafe_allow_html=True)
@@ -233,8 +230,8 @@ with tab4:
     <tr><td>ResNet-50</td><td>87%</td><td>91%</td><td>85%</td><td>0.87</td><td>0.85</td><td>0.85</td></tr>
     </tbody></table></div>""", unsafe_allow_html=True)
 
-# TAB 5 — TECH STACK
-with tab5:
+# TAB 6 — TECH STACK
+with tab6:
     st.markdown('<div class="section-tag">Technology</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-title">Software <span>Stack</span></div>', unsafe_allow_html=True)
     st.markdown('<div class="section-desc">Built with production-grade open-source tools for deep learning, image processing, and web deployment.</div>', unsafe_allow_html=True)
@@ -245,8 +242,8 @@ with tab5:
     for col,(icon,name,role) in zip(r2,[("📊","Matplotlib / Seaborn","Visualization"),("🔬","Scikit-learn","Evaluation Metrics"),("🌐","Streamlit","Web Application"),("📓","Jupyter / Anaconda","Dev Environment")]):
         with col: st.markdown(f'<div class="stack-card"><div class="stack-icon">{icon}</div><div class="stack-name">{name}</div><div class="stack-role">{role}</div></div>', unsafe_allow_html=True)
 
-# TAB 6 — CONCLUSION
-with tab6:
+# TAB 7 — CONCLUSION
+with tab7:
     st.markdown('<div class="section-tag">Conclusion</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-title">Key Findings & <span>Future Work</span></div>', unsafe_allow_html=True)
     st.markdown('<div class="section-desc">Deep Learning × Medical Imaging = Faster, Accessible Pneumonia Diagnosis.</div>', unsafe_allow_html=True)
@@ -265,10 +262,8 @@ st.markdown("""
 <div class="footer">
     <div class="footer-brand">Pneumo<span>Scan</span> AI</div>
     <div class="footer-info">
-        Approach for Pneumonia Detection via Image Classification<br/>
-        <strong style="color:#a78bfa;">Aarthi A R</strong> &nbsp;|&nbsp; Anna Adarsh College for Women (Autonomous)<br/>
-        Guide: <strong style="color:#a78bfa;">Dr. Hannah Vijaykumar</strong><br/>
-        <span style="font-size:0.76rem;color:#4a5f80;">Review II · February 2026 · Design & Implementation Stage</span>
+        AI-Powered Approach for Pneumonia Detection via Image Classification<br/>
+        <span style="font-size:0.76rem;color:#4a5f80;">For research & educational use only · Always consult a qualified medical professional</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
